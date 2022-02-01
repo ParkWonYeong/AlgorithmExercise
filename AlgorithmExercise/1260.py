@@ -9,6 +9,7 @@ from collections import deque
 import sys
 
 def dfs(x, visit=[]):
+    # dfs 함수 내에서 visit=[]을 선언할 경우 런타임 에러가 발생했다.
     visit.append(x)
     print(x, end = ' ')
 
@@ -29,6 +30,9 @@ def bfs(x):
             if graph[v][i] == 1 and (i not in visit):
                 visit.append(i)
                 queue.append(i)
+
+# bfs에서 visit=[x]로 설정해주지 않자 무한루프를 돌아 출력 초과가 되는 문제점이 발생했다.
+# 따라서 visit이라는 변수를 선언하여 이용했다.
 
 # main
 N,M,V=map(int, sys.stdin.readline().split())
