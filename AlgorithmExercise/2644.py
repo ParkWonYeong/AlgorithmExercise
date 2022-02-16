@@ -37,3 +37,5 @@ for _ in range(m):
 
 bfs(b)  # 여기에 a를 넣고 result[b]를 계산하든, b를 넣고 result[a]를 계산하든 답은 동일하게 나옴.
 print(result[a] if result[a] != 0 else -1)  # 친척관계가 없어 촌수를 계산할 수 없다면(result[b]가 0) -1을 출력한다.
+
+# 32396KB, 92ms
