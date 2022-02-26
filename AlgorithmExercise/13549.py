@@ -27,3 +27,5 @@ def bfs(x):
                     cnt[i] = cnt[x]+1   # cnt값을 +1 해준다.
                     q.append(i)
 print(bfs(n))
+
+# 35640KB, 168ms
