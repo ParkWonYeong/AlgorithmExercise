@@ -1,15 +1,16 @@
 ## 1010
+# combination 구현
+
+def factorial(n):
+    num = 1
+    for i in range(1, n+1):
+        num *= i
+    return num
 
 T = int(input())
 for _ in range(T):
     n,m = map(int, input().split())
-    
-    if m == 1:
-        answer = n
-        break
+    answer = factorial(m) // (factorial(n) * factorial(m-n))
+    print(answer)
 
-    N,M = n,m
-    for i in range(1, m+1):
-        N *= n-i
-        M *= m-i
-    print(M//N)
+# 30840KB, 108ms
