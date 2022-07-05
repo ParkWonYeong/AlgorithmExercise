@@ -6,9 +6,8 @@ input = sys.stdin.readline
 n,x = map(int, input().split())
 num = list(map(int, input().split()))
 
-start,end = 0, n-1
 cnt = 0
-check_on = 0
+check_on = 0            # 해당 숫자가 시작되는 지점에서 1로 바꾼다.
 while num:
     check = num.pop(0)
     cnt += 1
