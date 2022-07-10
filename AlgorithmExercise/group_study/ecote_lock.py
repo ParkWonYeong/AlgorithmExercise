@@ -71,6 +71,7 @@ def solution(key, lock):
 
 
 
+
 ### method 2
 
 def rotation(arr):
