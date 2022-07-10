@@ -2,6 +2,8 @@
 
 # 출처: https://school.programmers.co.kr/learn/courses/30/lessons/60059
 
+
+### method 1
 import sys
 sys.setrecursionlimit(10**6)
 
@@ -66,3 +68,58 @@ def key_lock(x, y, rotation, key, lock):
 def solution(key, lock):
     answer = key_lock(1, 1, 0, key, lock)
     return answer
+
+
+
+### method 2
+
+def rotation(arr):
+    n = len(arr)
+    ret = [[0]*n for _ in range(n)]
+    
+    for i in range(n):
+        for j in range(n):
+            ret[j][n-i-1] = arr[i][j]
+    
+    return ret
+
+# 자물쇠가 열리는지 check
+def is_unlock(bg_size, lock, key, start_x, start_y, c_start, c_end):
+    bg = [[0]*bg_size for i in range(0, bg_size)]
+
+    # background에 key와 같은 좌표에 있는 해당 값들을 모아서 계산 진행
+    for i in range(0, len(key)):
+        for j in range(0, len(key)):
+            bg[start_y+i][start_x+j] += key[i][j]
+    
+    # background에 key와 다른 좌표에 있는 값들을 모아 계산 진행
+    for i in range(c_start, c_end):
+        for j in range(c_start, c_end):
+            bg[i][j] += lock[i - c_start][j - c_start]
+            # lock + key = 1이 아니면 풀 수 없음
+            if bg[i][j] != 1:
+                return False
+    
+    return True
+
+def solution(key, lock):
+    lock_size = len(lock)
+    center_start = len(key)-1   # 앞으로 만들 전체 background의 center 좌표
+    center_end = center_start + lock_size
+    # 한 cell씩 확인하기 위해서 7*7의 좌표 형태로 만든 background
+    # background는 lock의 3배를 할 필요는 없다.
+    # lock의 길이 + (key의 길이 - 1)*2로 하면 처음부터 겹치게 해서 값 비교 가능
+
+    background_size = lock_size + (2*center_start)
+
+    for _ in range(0,4):    # rotation
+        for i in range(center_end): # start_x
+            for j in range(center_end): # start_y
+                if is_unlock(background_size, lock, key, i, j, center_start, center_end) is True:
+                    return True
+            key = rotation(key)
+    
+    return False
+
+## 6, 8, 11, 14, 19, 38 오답
+
