@@ -7,76 +7,50 @@
 # 1번 회사에서 출발하여 K번 회사 방문 후 X번 회사로 이동.(최소시간)
 # 만약 X번 회사에 도달할 수 없다면 -1 출력
 
+# bfs로 풀어보려고 했으나 도중에 거치는 곳이 있기 때문에,
+# 완전 탐색이 끝난 시점에서 다시 돌아가야 하는 경우 어려움이 있다.
+
+
 import sys
 input = sys.stdin.readline
 
-def search_load(now_location, want_to_go, linked):
-
-    global cnt
-
-    for i in range(len(linked)):
-        if linked[i] == now_location:    # 현 위치에서 바로 갈 수 있는 방법 탐색
-            if (linked[i][1] == want_to_go):
-                print('go to {} from {}'.format(want_to_go, now_location))
-                cnt += 1
-
-    if want_to_go in linked[i]:    # 1에서 바로 못 가는 경우 우회 경로 탐색
-            
-        if linked[i] == want_to_go:
-            search_load(now_location, linked[i][1], linked)
-        else:
-            search_load(now_location, linked[i][0], linked)
-
+INF = int(1e9)      # 무한(10억)
 
 # n: 회사 개수 / m: 경로 개수
 n,m = map(int, input().split())
 
-linked = []
+time = [[INF]*(n+1) for _ in range(n+1)]
+
+# 양방향 간선 추가
 for _ in range(m):
-    linked.append(list(map(int, input().split())))
+    t,s = map(int, input().split())
+    time[t][s] = 1
+    time[s][t] = 1
 
 x,k = map(int, input().split())     # K 회사 방문 후 X 회사
 
-global cnt
-cnt = 0
+# 같은 위치에서는 이동시간 0
+for a in range(1, n+1):
+    for b in range(1, n+1):
+        if a == b:
+            time[a][b] = 0
 
-# 이동 시마다 함수를 호출하여 경로를 탐색한다.
+
+# 최단 경로 계산
+for i in range(1, n+1):         # 거쳐야하는 경우
+    for j in range(1, n+1):     # 목표지점
+        for l in range(1, n+1): # 현재위치
+            time[j][l] = min(time[j][l], time[j][i]+time[i][l])
 
 # 1 -> k
-search_load(1, k, linked)
+from_1_to_k = time[1][k]
 
 # k -> x
-search_load(k, x, linked)
-
-
+from_k_to_x = time[k][x]
 
 ## answer
-if cnt < 2:
+ans = from_1_to_k + from_k_to_x
+if ans >= INF:
     print(-1)
-
 else:
-    print(cnt)
-
-
-
-## input 예시
-# <입력 예시 1>
-# 5 7
-# 1 2
-# 1 3
-# 1 4
-# 2 4
-# 3 4
-# 3 5
-# 4 5
-# 4 5
-# <출력 예시 1>
-# 3
-
-# <입력 예시 2>
-# 4 2
-# 1 3
-# 2 4
-# 3 4
-# <출력 예시 2>
-# -1
+    print(ans)
