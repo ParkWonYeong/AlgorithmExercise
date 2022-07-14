@@ -6,48 +6,52 @@
 import sys
 input = sys.stdin.readline
 
+# 소속 팀이 있는지 확인
+def find(team, x):
+
+    if team[x] != x:        # 특정 팀에 속한 학생인 경우
+        team[x] = find(team, team[x])   # 어느 팀인지 찾는다
+
+    return team[x]
+
+
+# 팀 합치기
+def merge(team, i, j):
+    # 두 학생이 어느 팀 소속인지 찾는다.
+    i = find(team, i)
+    j = find(team,j)
+
+    # 더 작은 수로 팀을 합친다.
+    if i>j:
+        team[i] = j
+    else:
+        team[j] = i
+
+
+#### main ####
 n,m = map(int, input().split())
 
+team = [i for i in range(n+1)]
 
-# 팀 합치기 연산은 '두 팀'을 합치는 연산
-# 같은 팀 여부 확인 : 특정 두 학생이 같은 팀에 속하는지 확인
-
-team_sum = []*100001
-
-# 팀 합치기: [0, 해당 학생 속한팀, 해당 학생 속한팀]
-# 같은 팀 여부 확인: [1, 해당 학생 속한팀, 해당 학생 속한 팀]
 for _ in range(m):
-    x,y,z = map(int, input().split())
-    print(x, y, z)
+    x,a,b = map(int, input().split())
 
     # 팀 합치기 연산
     if x == 0:
-        print('x=0')
-        for i in range(len(team_sum)):
-            if (y in team_sum[i]) or (z in team_sum[i]):
-                team_sum[i] += list(y,z)
-                break
-            # 새로운 학생일 경우
-            else:
-                team_sum[i+1] = list(y,z)
-                break
+        merge(team,a,b)
 
     # 같은 팀 여부 확인 연산
-    else:
-        print('x=1')
-        for j in range(len(team_sum)):
-            if (y in team_sum[i]) and (z in team_sum[i]):
-                print('YES')
-                break
-            else:
-                print('NO')
-                break
+    elif x == 1:
+        if find(team,a) == find(team,b):    # 같은 티
+            print("YES")
+        else:
+            print("NO")
 
 
-# 입력 예시
+# 입출력 예시
 
+# 입력
 # 7 8
-
 # 0 1 3
 # 1 1 7     # 같은 팀 여부 확인
 # 0 7 6
