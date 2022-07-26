@@ -9,7 +9,7 @@ home, chicken = [],[]
 for i in range(n):
     city = list(map(int, input().split()))
     for j in range(n):
-        if city[n] > 0:
+        if city[j] > 0:
             # 1=home, 2=chicken
             if city[j] == 1:
                 home.append((i,j))
