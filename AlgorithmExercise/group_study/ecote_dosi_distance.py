@@ -5,6 +5,8 @@
 import sys
 from collections import deque
 
+input = sys.stdin.readline
+
 n,m,k,x = map(int, input().split())
 
 # 인덱스 값 = 도시 번호
