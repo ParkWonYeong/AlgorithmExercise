@@ -8,7 +8,7 @@ input = sys.stdin.readline
 
 n = int(input())        # 1<=n<=500
 
-# 자기자신 인덱스 또는 +1번째 인덱스와 합할 수 있다.
+# 자기자신 인덱스 또는 -1번째 인덱스와 합할 수 있다.
 triangle = []
 
 for _ in range(n):
