@@ -3,15 +3,12 @@
 
 def solution(s):
     
+    answer = False
     s = s.lower()
     
-    cnt_p = s.count('p')
-    cnt_y = s.count('y')
-    
-    answer = False
+    cnt_p, cnt_y = s.count('p'), s.count('y')
     
     if cnt_p == cnt_y:
         answer = True
     
-
     return answer
