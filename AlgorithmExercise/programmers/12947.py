@@ -1,6 +1,7 @@
 ## 12947
 
 def solution(x):
+    
     check_x = str(x)
     
     cnt_x = 0
