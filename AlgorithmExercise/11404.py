@@ -27,6 +27,7 @@ for _ in range(bus):
     # A->B 비용 C
     a,b,c = map(int, input().split())
     # 동일한 노선 중 작은 비용 선택
+    # (조건-시작도시와 도착도시를 연결하는 노선은 하나가 아닐 수 있음)
     cost[a][b] = min(c, cost[a][b])
 
 ## 플로이드 워셜 알고리즘 ##
@@ -38,7 +39,7 @@ for k in range(1, city+1):
 # 출력
 for i in range(1, city+1):
     for j in range(1, city+1):
-        # 도달할 수 없으면 0 출력(조건-시작도시와 도착도시를 연결하는 노선은 하나가 아닐 수 있음)
+        # 도달할 수 없으면 0 출력
         if cost[i][j] == INF:
             print(0, end=' ')
         else:
