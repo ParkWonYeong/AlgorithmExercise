@@ -10,4 +10,4 @@ def solution(price, money, count):
     if answer <= 0:
         return 0
 
-    return answer```
+    return answer
