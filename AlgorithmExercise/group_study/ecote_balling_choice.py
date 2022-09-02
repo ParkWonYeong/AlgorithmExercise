@@ -11,3 +11,20 @@ for i in range(n):
             ans += 1
 
 print(ans)
+
+
+### 볼링공 고르기(2회독)
+
+import sys
+input = sys.stdin.readline
+
+n,m = map(int, input().split())
+wgt = list(map(int, input().split()))
+ans = 0
+for i in range(n):
+    for j in range(i,n):
+        # i와 j의 무게가 다를 때만 경우의 수로 추가
+        if wgt[i] != wgt[j]:
+            ans += 1
+
+print(ans)
