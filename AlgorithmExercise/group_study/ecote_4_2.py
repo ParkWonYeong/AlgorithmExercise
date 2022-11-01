@@ -21,3 +21,15 @@ print(cnt)
 
 # 시에 3이 들어가는 경우는 초 단위로 모두 경우의 수가 추가된다.
 # 1분은 60초, 60분은 3600초가 된다. 따라서 3600을 더해준다.
+
+### 정석 코드 ###
+H = int(input())
+
+count = 0
+for h in range(H+1):    # hour(H시 59분 59초까지 세어야 하므로 H+1)
+    for m in range(60): # minute
+        for s in range(60):
+            if '3' in str(h)+str(m)+str(s):
+                count += 1
+
+print(count)
