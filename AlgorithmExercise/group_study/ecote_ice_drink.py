@@ -1,46 +1,79 @@
-## 음료수 얼려먹기(bfs, dfs)
+# ## 음료수 얼려먹기(bfs, dfs)
 
-## 구멍이 0, 막혀있는 부분이 1
-# 방문한 노드는 1로 정해준다. 게임개발 문제와 유사.
+# ## 구멍이 0, 막혀있는 부분이 1
+# # 방문한 노드는 1로 정해준다. 게임개발 문제와 유사.
 
-# 현재 정점에서 갈 수 있는 점들까지 들어가면서 탐색해야하므로 dfs 방식 사용
-# dfs 방식은 재귀함수를 이용한다.
+# # 현재 정점에서 갈 수 있는 점들까지 들어가면서 탐색해야하므로 dfs 방식 사용
+# # dfs 방식은 재귀함수를 이용한다.
 
-import sys
-input = sys.stdin.readline
+# import sys
+# input = sys.stdin.readline
 
-# 상하좌우 연결 가능한 '0'(구멍)이 있는지 체크.(dfs)
-def dfs(x, y):
-    global cnt
-    if (x<0 or x>=n or y<0 or y>=m) or (ice[x][y]=='1'):  # 영역 밖이거나 방문한 곳
-        return 0
+# # 상하좌우 연결 가능한 '0'(구멍)이 있는지 체크.(dfs)
+# def dfs(x, y):
+#     global cnt
+#     if (x<0 or x>=n or y<0 or y>=m) or (ice[x][y]=='1'):  # 영역 밖이거나 방문한 곳
+#         return 0
     
-    if ice[x][y] == '0':
-        ice[x][y] = '1'           # 방문 표시
-        # 상하좌우 탐색
-        dfs(x,y-1)  # 상
-        dfs(x,y+1)  # 하
-        dfs(x-1,y)  # 좌
-        dfs(x+1,y)  # 우
-        return 1
-    return 0
+#     if ice[x][y] == '0':
+#         ice[x][y] = '1'           # 방문 표시
+#         # 상하좌우 탐색
+#         dfs(x,y-1)  # 상
+#         dfs(x,y+1)  # 하
+#         dfs(x-1,y)  # 좌
+#         dfs(x+1,y)  # 우
+#         return 1
+#     return 0
 
 
-## main ##
+# ## main ##
 
-n,m = map(int, input().split())     # n 세로, m 가로
-cnt = 0                             # 음료수 채우는 횟수를 count 할 변수
+# n,m = map(int, input().split())     # n 세로, m 가로
+# cnt = 0                             # 음료수 채우는 횟수를 count 할 변수
 
-# 얼음틀의 형태가 주어진다. (n x m 2차원 리스트)
-ice = []
-for _ in range(n):
-    # int input으로 받으니 0부터 시작하는 경우 에러 발생.
-    # 따라서 처음부터 string 값으로 받고, string 값으로 조건문을 건다.
-    ice.append(list(map(str, input())))
+# # 얼음틀의 형태가 주어진다. (n x m 2차원 리스트)
+# ice = []
+# for _ in range(n):
+#     # int input으로 받으니 0부터 시작하는 경우 에러 발생.
+#     # 따라서 처음부터 string 값으로 받고, string 값으로 조건문을 건다.
+#     ice.append(list(map(str, input())))
 
+# for i in range(n):
+#     for j in range(m):
+#        if dfs(i,j) == 1:
+#         cnt += 1
+
+# print(cnt)
+
+
+### 2회독 ###
+
+from collections import deque
+
+def dfs(y,x):
+    # 상하좌우로 연결된 구멍을 확인하고 전부 1로 채워준다
+    if 0<=y<n and 0<=x<m and graph[y][x] == 0:
+        graph[y][x] = 1
+        dfs(y-1,x)  #상
+        dfs(y+1,x)  #하
+        dfs(y,x-1)  #좌
+        dfs(y,x+1)  #우
+        return True
+
+    else:
+        return False
+
+n,m = map(int, input().split())
+
+graph = [[] for _ in range(n)]
 for i in range(n):
-    for j in range(m):
-       if dfs(i,j) == 1:
-        cnt += 1
+    graph[i] = list(map(int, input()))
 
-print(cnt)
+ans = 0
+
+for j in range(n):
+    for k in range(m):
+        if dfs(j,k) == True:
+            ans += 1
+
+print(ans)
