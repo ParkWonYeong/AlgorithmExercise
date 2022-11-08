@@ -1,38 +1,38 @@
 ## 미로탈출
 
+## dfs ##
+import sys
+sys.setrecursionlimit(10**6)    # 재귀 깊이 한계치
+input = sys.stdin.readline
 
-# import sys
-# sys.setrecursionlimit(10**6)    # 재귀 깊이 한계치
-# input = sys.stdin.readline
+def dfs(x,y):
+    global cnt
 
-# def dfs(x,y):
-#     global cnt
+    while not (x==n and y==m):
 
-#     while not (x==n and y==m):
+        if (x<0 or x>=n or y<0 or y>=m) or maze[x][y] == '0':
+            continue
 
-#         if (x<0 or x>=n or y<0 or y>=m) or maze[x][y] == '0':
-#             continue
+        if maze[x][y] == '1':
+            maze[x][y] == '0'   # 방문 표시
+            cnt += 1
+            # 상하좌우 확인
+            dfs(x,y-1)
+            dfs(x,y+1)
+            dfs(x-1,y)
+            dfs(x+1,y)
 
-#         if maze[x][y] == '1':
-#             maze[x][y] == '0'   # 방문 표시
-#             cnt += 1
-#             # 상하좌우 확인
-#             dfs(x,y-1)
-#             dfs(x,y+1)
-#             dfs(x-1,y)
-#             dfs(x+1,y)
-
-#     cnt += 1        # 마지막칸도 포함해서 계산
+    cnt += 1        # 마지막칸도 포함해서 계산
 
 
-# n,m = map(int, input().split())
-# cnt = 1                 # 시작칸 포함해서 계산
-# maze = []               # NxM 2차원 배열의 미로
-# for _ in range(n):
-#     maze.append(list(input()))
+n,m = map(int, input().split())
+cnt = 1                 # 시작칸 포함해서 계산
+maze = []               # NxM 2차원 배열의 미로
+for _ in range(n):
+    maze.append(list(input()))
 
-# dfs(0,0)
-# print(cnt)
+dfs(0,0)
+print(cnt)
 
 
 ## bfs ##
@@ -89,3 +89,36 @@ dx = [0,1,0,-1]
 dy = [1,0,-1,0]
 
 bfs(maze)
+
+
+### 2회독 ###
+
+from collections import deque
+
+n,m = map(int, input().split())
+
+maze=[[] for _ in range(n)]
+for i in range(n):
+    maze[i] = list(map(int, input()))
+
+dx = [-1,1,0,0]
+dy = [0,0,-1,1]
+
+# bfs
+
+q = deque()
+q.append((0,0))
+while q:
+    x,y = q.popleft()
+
+    if x==n-1 and y==m-1:           # 목적지 도착하면 바로 종료
+        break
+
+    for j in range(4):              # 상하좌우 탐색
+        nx, ny = x+dx[j], y+dy[j]
+        if 0<=nx<n and 0<=ny<m and maze[nx][ny] == 1:
+            maze[nx][ny] += maze[x][y]
+            q.append((nx,ny))
+            # print(nx,ny, 'maze[nx][ny]=', maze[nx][ny])
+
+print(maze[n-1][m-1])
